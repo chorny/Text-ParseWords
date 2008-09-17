@@ -1,0 +1,14 @@
+--- #YAML:1.0
+name:                Text-ParseWords
+version:             3.25_01
+abstract:            parse text into an array of tokens or array of arrays
+license:             perl
+generated_by:        ExtUtils::MakeMaker version 6.32
+distribution_type:   module
+requires:     
+    Scalar::Util:                  0
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2
+author:
+    - Alexandr Ciornii <alexchorny@gmail.com>

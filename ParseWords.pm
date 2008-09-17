@@ -1,9 +1,9 @@
 package Text::ParseWords;
 
 use vars qw($VERSION @ISA @EXPORT $PERL_SINGLE_QUOTE);
-$VERSION = "3.1";
+$VERSION = "3.25_01";
 
-require 5.000;
+require 5.005;
 
 use Exporter;
 @ISA = qw(Exporter);
@@ -12,9 +12,17 @@ use Exporter;
 
 
 sub shellwords {
-    local(@lines) = @_;
-    $lines[$#lines] =~ s/\s+$//;
-    return(quotewords('\s+', 0, @lines));
+    my (@lines) = @_;
+    my @allwords;
+
+    foreach my $line (@lines) {
+	$line =~ s/^\s+//;
+	my @words = parse_line('\s+', 0, $line);
+	pop @words if (@words and !defined $words[-1]);
+	return() unless (@words || !length($line));
+	push(@allwords, @words);
+    }
+    return(@allwords);
 }
 
 
@@ -22,7 +30,6 @@ sub shellwords {
 sub quotewords {
     my($delim, $keep, @lines) = @_;
     my($line, @words, @allwords);
-    
 
     foreach $line (@lines) {
 	@words = parse_line($delim, $keep, $line);
@@ -37,7 +44,7 @@ sub quotewords {
 sub nested_quotewords {
     my($delim, $keep, @lines) = @_;
     my($i, @allwords);
-    
+
     for ($i = 0; $i < @lines; $i++) {
 	@{$allwords[$i]} = parse_line($delim, $keep, $lines[$i]);
 	return() unless (@{$allwords[$i]} || !length($lines[$i]));
@@ -48,39 +55,54 @@ sub nested_quotewords {
 
 
 sub parse_line {
-	# We will be testing undef strings
-	local($^W) = 0;
-
     my($delimiter, $keep, $line) = @_;
-    my($quote, $quoted, $unquoted, $delim, $word, @pieces);
+    my($word, @pieces);
+
+    no warnings 'uninitialized';	# we will be testing undef strings
 
     while (length($line)) {
+        # This pattern is optimised to be stack conservative on older perls.
+        # Do not refactor without being careful and testing it on very long strings.
+        # See Perl bug #42980 for an example of a stack busting input.
+        $line =~ s/^
+                    (?: 
+                        # double quoted string
+                        (")                             # $quote
+                        ((?>[^\\"]*(?:\\.[^\\"]*)*))"   # $quoted 
+		    |	# --OR--
+                        # singe quoted string
+                        (')                             # $quote
+                        ((?>[^\\']*(?:\\.[^\\']*)*))'   # $quoted
+                    |   # --OR--
+                        # unquoted string
+		        (                               # $unquoted 
+                            (?:\\.|[^\\"'])*?           
+                        )		
+                        # followed by
+		        (                               # $delim
+                            \Z(?!\n)                    # EOL
+                        |   # --OR--
+                            (?-x:$delimiter)            # delimiter
+                        |   # --OR--                    
+                            (?!^)(?=["'])               # a quote
+                        )  
+		    )//xs or return;		# extended layout                  
+        my ($quote, $quoted, $unquoted, $delim) = (($1 ? ($1,$2) : ($3,$4)), $5, $6);
 
-	($quote, $quoted, undef, $unquoted, $delim, undef) =
-	    $line =~ m/^(["'])                 # a $quote
-                        ((?:\\.|(?!\1)[^\\])*)    # and $quoted text
-                        \1 		       # followed by the same quote
-                        ([\000-\377]*)	       # and the rest
-		       |                       # --OR--
-                       ^((?:\\.|[^\\"'])*?)    # an $unquoted text
-		      (\Z(?!\n)|$delimiter|(?!^)(?=["']))  
-                                               # plus EOL, delimiter, or quote
-                      ([\000-\377]*)	       # the rest
-		      /x;		       # extended layout
-	return() unless( $quote || length($unquoted) || length($delim));
 
-	$line = $+;
+	return() unless( defined($quote) || length($unquoted) || length($delim));
 
         if ($keep) {
 	    $quoted = "$quote$quoted$quote";
 	}
         else {
-	    $unquoted =~ s/\\(.)/$1/g;
+	    $unquoted =~ s/\\(.)/$1/sg;
 	    if (defined $quote) {
-		$quoted =~ s/\\(.)/$1/g if ($quote eq '"');
+		$quoted =~ s/\\(.)/$1/sg if ($quote eq '"');
 		$quoted =~ s/\\([\\'])/$1/g if ( $PERL_SINGLE_QUOTE && $quote eq "'");
             }
 	}
+        $word .= substr($line, 0, 0);	# leave results tainted
         $word .= defined $quote ? $quoted : $unquoted;
  
         if (length($delim)) {
@@ -104,41 +126,48 @@ sub old_shellwords {
     #	@words = old_shellwords($line);
     #	or
     #	@words = old_shellwords(@lines);
+    #	or
+    #	@words = old_shellwords();	# defaults to $_ (and clobbers it)
 
-    local($_) = join('', @_);
-    my(@words,$snippet,$field);
+    no warnings 'uninitialized';	# we will be testing undef strings
+    local *_ = \join('', @_) if @_;
+    my (@words, $snippet);
 
-    s/^\s+//;
+    s/\A\s+//;
     while ($_ ne '') {
-	$field = '';
+	my $field = substr($_, 0, 0);	# leave results tainted
 	for (;;) {
-	    if (s/^"(([^"\\]|\\.)*)"//) {
-		($snippet = $1) =~ s#\\(.)#$1#g;
+	    if (s/\A"(([^"\\]|\\.)*)"//s) {
+		($snippet = $1) =~ s#\\(.)#$1#sg;
 	    }
-	    elsif (/^"/) {
+	    elsif (/\A"/) {
+		require Carp;
+		Carp::carp("Unmatched double quote: $_");
 		return();
 	    }
-	    elsif (s/^'(([^'\\]|\\.)*)'//) {
-		($snippet = $1) =~ s#\\(.)#$1#g;
+	    elsif (s/\A'(([^'\\]|\\.)*)'//s) {
+		($snippet = $1) =~ s#\\(.)#$1#sg;
 	    }
-	    elsif (/^'/) {
+	    elsif (/\A'/) {
+		require Carp;
+		Carp::carp("Unmatched single quote: $_");
 		return();
 	    }
-	    elsif (s/^\\(.)//) {
+	    elsif (s/\A\\(.?)//s) {
 		$snippet = $1;
 	    }
-	    elsif (s/^([^\s\\'"]+)//) {
+	    elsif (s/\A([^\s\\'"]+)//) {
 		$snippet = $1;
 	    }
 	    else {
-		s/^\s+//;
+		s/\A\s+//;
 		last;
 	    }
 	    $field .= $snippet;
 	}
 	push(@words, $field);
     }
-    @words;
+    return @words;
 }
 
 1;
@@ -167,8 +196,8 @@ words ignoring delimiters that appear inside quotes.  &quotewords()
 returns all of the tokens in a single long list, while &nested_quotewords()
 returns a list of token lists corresponding to the elements of @lines.
 &parse_line() does tokenizing on a single string.  The &*quotewords()
-functions simply call &parse_lines(), so if you're only splitting
-one line you can call &parse_lines() directly and save a function
+functions simply call &parse_line(), so if you're only splitting
+one line you can call &parse_line() directly and save a function
 call.
 
 The $keep argument is a boolean flag.  If true, then the tokens are
@@ -214,21 +243,27 @@ demonstrating:
 =over 4
 
 =item 0
+
 a simple word
 
 =item 1
+
 multiple spaces are skipped because of our $delim
 
 =item 2
+
 use of quotes to include a space in a word
 
 =item 3
+
 use of a backslash to include a space in a word
 
 =item 4
+
 use of a backslash to remove the special meaning of a double-quote
 
 =item 5
+
 another simple word (note the lack of effect of the
 backslashed double-quote)
 
@@ -240,7 +275,9 @@ is a simpler way to accomplish the same thing.
 
 =head1 AUTHORS
 
-Maintainer is Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (Original
+Maintainer: Alexandr Ciornii <alexchornyATgmail.com>.
+
+Previous maintainer: Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (Original
 author unknown).  Much of the code for &parse_line() (including the
 primary regexp) from Joerk Behrends <jbehrends@multimediaproduzenten.de>.
 

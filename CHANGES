@@ -1,0 +1,14 @@
+
+3.26 (perl 5.10)
+better regex in parse_line (demerphq, perl change 31659)
+trailing backslash handling (perl #40921)
+
+3.25
+more correct handling of backslashes
+
+versions prior to 3.24 include other fixes from core perl
+3.24 (perl 5.8.8)
+taint.t (Alexey Tourbin, perl #33173, perl change 23838)
+
+3.22
+handling of backslashed newline inside quoted text
