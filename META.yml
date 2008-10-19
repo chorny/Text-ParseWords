@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Text-ParseWords
-version:             3.25_01
+version:             3.25_02
 abstract:            parse text into an array of tokens or array of arrays
 license:             perl
 generated_by:        ExtUtils::MakeMaker version 6.32

@@ -1,5 +1,5 @@
 
-use 5.005; 
+use 5.006; 
 use ExtUtils::MakeMaker;
  
 WriteMakefile(
@@ -12,7 +12,6 @@ WriteMakefile(
      ('LICENSE'		=> 'perl', ) : ()),
     PREREQ_PM    => {
       'Scalar::Util' => 0,
-      ($]<5.006?
-       ('warnings::compat'=>0.02):()),
     },
+    PL_FILES => {},
 );

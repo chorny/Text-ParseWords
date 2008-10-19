@@ -4,6 +4,6 @@ MANIFEST			This list of files
 ParseWords.pm
 README
 t/pod.t
-t/t.t
+t/ParseWords.t
 t/taint.t
 META.yml                                 Module meta-data (added by MakeMaker)
