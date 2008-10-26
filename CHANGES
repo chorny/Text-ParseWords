@@ -1,14 +1,15 @@
+3.27 (CPAN version)
+Makefile.PL rewritten
+CHANGES
+pod.t
+5.6 only (regex doesn't work on 5.5.5)
+skip unicode testing on 5.6 in ParseWords.t
+"use strict" in ParseWords.pm
+small changes due to making CPAN version
 
 3.26 (perl 5.10)
 better regex in parse_line (demerphq, perl change 31659)
 trailing backslash handling (perl #40921)
-
-CPAN version:
-Makefile.PL rewritten
-CHANGES
-pod.t
-5.6 only
-skip unicode testing on 5.6 in ParseWords.t
 
 3.25
 more correct handling of backslashes

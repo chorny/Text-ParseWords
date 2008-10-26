@@ -2,7 +2,7 @@ package Text::ParseWords;
 
 use strict;
 require 5.006;
-our $VERSION = "3.25_02";
+our $VERSION = "3.27";
 
 
 use Exporter;

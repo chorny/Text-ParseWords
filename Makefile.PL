@@ -8,10 +8,10 @@ WriteMakefile(
     ABSTRACT_FROM => 'ParseWords.pm',
     AUTHOR        => 'Alexandr Ciornii <alexchorny'.'@gmail.com>',
     INSTALLDIRS => 'perl',
-    ($ExtUtils::MakeMaker::VERSION ge '6.31'? 
-     ('LICENSE'		=> 'perl', ) : ()),
+    ($ExtUtils::MakeMaker::VERSION ge '6.48'? 
+     ('LICENSE'		=> 'perl', 'MIN_PERL_VERSION' => 5.006,) : ()),
     PREREQ_PM    => {
-      'Scalar::Util' => 0,
+      'Scalar::Util' => 0, #build
     },
     PL_FILES => {},
 );
