@@ -9,7 +9,8 @@ WriteMakefile(
     AUTHOR        => 'Alexandr Ciornii <alexchorny'.'@gmail.com>',
     INSTALLDIRS => 'perl',
     ($ExtUtils::MakeMaker::VERSION ge '6.48'? 
-     ('LICENSE'		=> 'perl', 'MIN_PERL_VERSION' => 5.006,) : ()),
+     ('LICENSE'		=> 'perl',
+      'MIN_PERL_VERSION' => 5.006,) : ()),
     PREREQ_PM    => {
       'Scalar::Util' => 0, #build
     },
