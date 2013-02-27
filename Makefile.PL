@@ -20,6 +20,12 @@ WriteMakefile1(
     BUILD_REQUIRES => {
       'Scalar::Util' => 0, #build
     },
+    $^O =~/win/i ? (
+        dist => {
+            TAR      => 'ptar',
+            TARFLAGS => '-c -C -f',
+        },
+    ) : (),
     PL_FILES => {},
 );
 
