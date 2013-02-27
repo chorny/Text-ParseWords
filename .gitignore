@@ -11,5 +11,6 @@ cover_db
 pod2htm*.tmp
 META.yml
 MYMETA.yml
+MYMETA.json
 
 Text-ParseWords-*
