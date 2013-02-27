@@ -4,7 +4,7 @@ use Module::Build;
 
 my $build = Module::Build->new(
   'auto_configure_requires' => 0,
-  'installdirs' => 'perl',
+  'installdirs' => 'core',
   'license' => 'perl',
   'dist_author' => 'Alexandr Ciornii <alexchorny@gmail.com>',
   'module_name' => 'Text::ParseWords',
