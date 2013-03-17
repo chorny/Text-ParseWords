@@ -1,3 +1,6 @@
+3.29
+Remove pod test from distribution
+
 3.28
 Better diag information in pod.t
 More metadata in META.yml
