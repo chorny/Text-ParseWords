@@ -17,7 +17,7 @@ WriteMakefile1(
             repository => 'http://github.com/chorny/Text-ParseWords',
         },
     },
-    BUILD_REQUIRES => {
+    TEST_REQUIRES => {
       'Scalar::Util' => 0, #build
     },
     $^O =~/win/i ? (
@@ -59,4 +59,3 @@ sub WriteMakefile1 {  #Compatibility code for old versions of EU::MM. Written by
 
     WriteMakefile(%params);
 }
-
