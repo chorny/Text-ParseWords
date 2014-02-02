@@ -202,8 +202,8 @@ one line you can call &parse_line() directly and save a function
 call.
 
 The $keep argument is a boolean flag.  If true, then the tokens are
-split on the specified delimiter, but all other characters (quotes,
-backslashes, etc.) are kept in the tokens.  If $keep is false then the
+split on the specified delimiter, but all other characters (including
+quotes and backslashes) are kept in the tokens.  If $keep is false then the
 &*quotewords() functions remove all quotes and backslashes that are
 not themselves backslash-escaped or inside of single quotes (i.e.,
 &quotewords() tries to interpret these characters just like the Bourne

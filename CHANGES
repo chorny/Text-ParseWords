@@ -1,4 +1,5 @@
 3.30
+Clarified $keep flag in doc (patch from DOM)
 Added copyright and license section to pod
 Fixed pod errors (patch from DOM)
 
