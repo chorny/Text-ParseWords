@@ -295,4 +295,9 @@ for assuring me that a &nested_quotewords() would be useful, and to
 Jeff Friedl <jfriedl@yahoo-inc.com> for telling me not to worry about
 error-checking (sort of-- you had to be there).
 
+=head1 COPYRIGHT AND LICENSE
+
+This library is free software; you may redistribute and/or modify it
+under the same terms as Perl itself.
+
 =cut
