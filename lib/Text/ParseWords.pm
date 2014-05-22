@@ -77,7 +77,7 @@ sub parse_line {
                     |   # --OR--
                         # unquoted string
 		        (                               # $unquoted 
-                            (?:\\.|[^\\"'])*?           
+                            (?:\\.|[^\"'])*?           
                         )		
                         # followed by
 		        (                               # $delim

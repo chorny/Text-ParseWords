@@ -1,15 +1,10 @@
-#!./perl
-
-BEGIN {
-    if( $ENV{PERL_CORE} ) {
-        chdir 't' if -d 't';
-        @INC = '../lib';
-    }
-}
-
+#!/usr/bin/env perl
+use strict;
 use warnings;
 use Text::ParseWords;
-use Test::More tests => 27;
+use Test::More tests => 28;
+
+my (@words, @lists, $string, $result);
 
 @words = shellwords(qq(foo "bar quiz" zoo));
 is($words[0], 'foo');
@@ -127,3 +122,9 @@ alarm(3);
 @words = Text::ParseWords::old_shellwords("foo\\");
 is(@words, 1);
 alarm(0);
+
+# RT #61103
+$string = "testing testing \\";
+$result = join('|', parse_line('\s+', 1, $string));
+is($result, 'testing|testing|\\');
+
