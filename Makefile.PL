@@ -4,8 +4,8 @@ use ExtUtils::MakeMaker;
  
 WriteMakefile1(
     NAME      => "Text::ParseWords",
-    VERSION_FROM => "ParseWords.pm",
-    ABSTRACT_FROM => 'ParseWords.pm',
+    VERSION_FROM => "lib/Text/ParseWords.pm",
+    ABSTRACT_FROM => 'lib/Text/ParseWords.pm',
     AUTHOR        => 'Alexandr Ciornii <alexchorny'.'@gmail.com>',
     INSTALLDIRS => 'perl',
     'LICENSE'		=> 'perl',
