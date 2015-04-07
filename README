@@ -24,14 +24,14 @@ Authors of Text::ParseWords
 
 Maintainer: Alexandr Ciornii.
 
-Previous maintainer: Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (Original
+Previous maintainer: Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (original
 author unknown).  Much of the code for &parse_line() (including the
 primary regexp) from Joerk Behrends <jbehrends@multimediaproduzenten.de>.
 
 Examples section another documentation provided by John Heidemann 
 <johnh@ISI.EDU>
 
-Bug reports, patches, and nagging provided by lots of folks-- thanks
+Bug reports, patches, and nagging provided by lots of folks -- thanks
 everybody!  Special thanks to Michael Schwern <schwern@envirolink.org>
 for assuring me that a &nested_quotewords() would be useful, and to 
 Jeff Friedl <jfriedl@yahoo-inc.com> for telling me not to worry about
