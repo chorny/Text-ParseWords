@@ -2,6 +2,7 @@ Revision history for Perl module Text::ParseWords
 
 3.30_01  2022-04-09  NEILB
     - Skip taint tests if running under Perl that doesn't support taint
+    - Added myself to AUTHORS section and fixed pod warnings in that section
 
 3.30  2015-03-11  CHORNY
     - Clarified $keep flag in doc (patch from DOM)

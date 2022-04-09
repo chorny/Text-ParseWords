@@ -280,19 +280,25 @@ L<Text::CSV> - for parsing CSV files
 
 =head1 AUTHORS
 
-Maintainer: Alexandr Ciornii <alexchornyATgmail.com>.
+Neil Bowers E<lt>neilb@cpan.orgE<gt> (2022-).
 
-Previous maintainer: Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (Original
-author unknown).  Much of the code for &parse_line() (including the
-primary regexp) from Joerk Behrends <jbehrends@multimediaproduzenten.de>.
+Alexandr Ciornii E<lt>alexchornyATgmail.comE<gt> (2008-2022).
 
-Examples section another documentation provided by John Heidemann 
-<johnh@ISI.EDU>
+Hal Pomeranz E<lt>pomeranz@netcom.comE<gt> (1994-1999).
+
+(Original author unknown).
+
+Much of the code for &parse_line()
+(including the primary regexp)
+from Joerk Behrends E<lt>jbehrends@multimediaproduzenten.deE<gt>.
+
+Examples section and other documentation provided by
+John Heidemann E<lt>johnh@ISI.EDUE<gt>.
 
 Bug reports, patches, and nagging provided by lots of folks-- thanks
-everybody!  Special thanks to Michael Schwern <schwern@envirolink.org>
+everybody!  Special thanks Michael Schwern E<lt>schwern@envirolink.orgE<gt>
 for assuring me that a &nested_quotewords() would be useful, and to 
-Jeff Friedl <jfriedl@yahoo-inc.com> for telling me not to worry about
+Jeff Friedl E<lt>jfriedl@yahoo-inc.comE<gt> for telling me not to worry about
 error-checking (sort of-- you had to be there).
 
 =head1 COPYRIGHT AND LICENSE
