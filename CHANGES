@@ -5,9 +5,9 @@ Revision history for Perl module Text::ParseWords
     - Added myself to AUTHORS section and fixed pod warnings in that section
 
 3.30  2015-03-11  CHORNY
-    - Clarified $keep flag in doc (patch from DOM)
-    - Added copyright and license section to pod
-    - Fixed pod errors (patch from DOM)
+    - Clarified $keep flag in doc (patch from DOM) (RT#88485)
+    - Added copyright and license section to pod (RT#90483 & RT#90482)
+    - Fixed pod errors (patch from DOM) (RT#91762)
 
 3.29  2013-03-17  CHORNY
     - Remove pod test from distribution
